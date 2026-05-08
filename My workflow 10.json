@@ -1,0 +1,120 @@
+{
+  "name": "My workflow 10",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1X31pU3OMCHrZlro-Zi5mrl_3c6OqKA-S27NLBxaxOB8",
+          "mode": "list",
+          "cachedResultName": "code node",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1X31pU3OMCHrZlro-Zi5mrl_3c6OqKA-S27NLBxaxOB8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1X31pU3OMCHrZlro-Zi5mrl_3c6OqKA-S27NLBxaxOB8/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "1290776d-f096-4c26-82a9-17e2700f7a87",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "KdVNkyM2etF6VKTA",
+          "name": "google sheet"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "\nconst row = item.json;\n\nconst cleanRow = {\n  fullName: row[\"Full Name\"]?.toString().trim().replace(/\\s+/g, \" \") || \"\",\n\n  email: row[\"Email\"]?.toString().trim().toLowerCase() || \"\",\n\n  amount: row[\"Amount\"] ? Number(row[\"Amount\"]) : 0,\n\n  date: row[\"Date\"] ? new Date(row[\"Date\"]).toISOString().split(\"T\")[0] : \"\",\n\n  message: row[\"Message\"]\n    ? row[\"Message\"].toString().trim().replace(/\\s+/g, \" \")\n    : \"\",\n\n  // ✅ NEW: Clean Message\n  cleanMessage: row[\"Message\"]\n    ? row[\"Message\"]\n        .toString()\n        .trim()\n        .replace(/\\s+/g, \" \")\n        .replace(/[^a-zA-Z0-9 .,!?@]/g, \"\")   // optional: remove weird symbols\n    : \"\",\n\n  // ✅ NEW: Subject field\n  subject: row[\"Subject\"]\n    ? row[\"Subject\"].toString().trim().replace(/\\s+/g, \" \")\n    : \"New message recive\"\n};\n\nreturn {\n  json: cleanRow\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "fc2e2929-59ce-4491-9899-7840fd71a391",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "={{ $json.subject }}",
+        "message": "=<div style=\"font-family: Arial, sans-serif; background:#f4f6f8; padding:20px; border-radius:10px;\">\n\n  <h2 style=\"color:#2c3e50;\">Hello, {{ $json.fullName }}</h2>\n\n  <p style=\"font-size:15px; color:#333;\">\n    We have received your details successfully.\n  </p>\n\n  <div style=\"background:#ffffff; padding:15px; border-left:5px solid #3498db; border-radius:8px;\">\n\n    <p style=\"margin:5px 0; font-size:14px;\">\n      💰 <b>Amount:</b> <span style=\"color:#27ae60;\">{{ $json.amount }}</span>\n    </p>\n\n    <p style=\"margin:5px 0; font-size:14px;\">\n      💬 <b>Message:</b> {{ $json.message }}\n    </p>\n\n    <p style=\"margin:5px 0; font-size:14px;\">\n      📅 <b>Date:</b> <span style=\"color:#8e44ad;\">{{ $json.date }}</span>\n    </p>\n\n  </div>\n\n  <p style=\"margin-top:20px; font-size:14px; color:#555;\">\n    Thank you,<br>\n    <b style=\"color:#2c3e50;\">{{ $json.fullName }}</b>\n  </p>\n\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "7d017261-f5c8-4149-9dc8-aa54079af483",
+      "name": "Send a message",
+      "webhookId": "a1348122-d850-42a7-9ffc-fcc94161769d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "ny74X13VS3JiQbPC",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "23750e4c-ae44-4c50-863c-8839c4571076",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "016fc0340d5bca8a0c6c73b85fee9f8049911e2827bdfaaa12c8ad88c03f5cd5"
+  },
+  "id": "SujAvianz4Uf118i",
+  "tags": []
+}
