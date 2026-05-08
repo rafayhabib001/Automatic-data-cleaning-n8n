@@ -1,5 +1,5 @@
 {
-  "name": "My workflow 10",
+  "name": "Data Cleaning & Email Automation Workflow",
   "nodes": [
     {
       "parameters": {
@@ -37,8 +37,8 @@
       "name": "Google Sheets Trigger",
       "credentials": {
         "googleSheetsTriggerOAuth2Api": {
-          "id": "KdVNkyM2etF6VKTA",
-          "name": "google sheet"
+          "id": "YOUR_GOOGLE_SHEETS_CREDENTIAL",
+          "name": "Google Sheets Account"
         }
       }
     },
@@ -60,7 +60,7 @@
       "parameters": {
         "sendTo": "={{ $json.email }}",
         "subject": "={{ $json.subject }}",
-        "message": "=<div style=\"font-family: Arial, sans-serif; background:#f4f6f8; padding:20px; border-radius:10px;\">\n\n  <h2 style=\"color:#2c3e50;\">Hello, {{ $json.fullName }}</h2>\n\n  <p style=\"font-size:15px; color:#333;\">\n    We have received your details successfully.\n  </p>\n\n  <div style=\"background:#ffffff; padding:15px; border-left:5px solid #3498db; border-radius:8px;\">\n\n    <p style=\"margin:5px 0; font-size:14px;\">\n      💰 <b>Amount:</b> <span style=\"color:#27ae60;\">{{ $json.amount }}</span>\n    </p>\n\n    <p style=\"margin:5px 0; font-size:14px;\">\n      💬 <b>Message:</b> {{ $json.message }}\n    </p>\n\n    <p style=\"margin:5px 0; font-size:14px;\">\n      📅 <b>Date:</b> <span style=\"color:#8e44ad;\">{{ $json.date }}</span>\n    </p>\n\n  </div>\n\n  <p style=\"margin-top:20px; font-size:14px; color:#555;\">\n    Thank you,<br>\n    <b style=\"color:#2c3e50;\">{{ $json.fullName }}</b>\n  </p>\n\n</div>",
+        "message": "=<div style=\"font-family: Arial, sans-serif; background:#f4f6f8; padding:20px; border-radius:10px;\">\n\n  <h2 style=\"color:#2c3e50;\">Hello, {{ $json.fullName }}</h2>\n\n  <p style=\"font-size:15px; color:#333;\">\n    We have received your details successfully.\n  </p>\n\n  <div style=\"background:#ffffff; padding:15px; border-left:5px solid #3498db; border-radius:8px;\">\n\n    <p style=\"margin:5px 0; font-size:14px;\">\n      💰 <b>Amount:</b> <span style=\"color:#27ae60;\">{{ $json.amount }}</span>\n    </p>\n\n    <p style=\"margin:5px 0; font-size:14px;\">\n      💬 <b>Message:</b> {{ $json.message }}\n    </p>\n\n    <p style=\"margin:5px 0; font-size:14px;\">\n      📅 <b>Date:</b> <span style=\"color:#8e44ad;\">{{ $json.date }}</span>\n    </p>\n\n  </div>\n\n  <p style=\"margin-top:20px; font-size:14px; color:#555;\">\n    Thank you,<br>\n    <b style=\"color:#2c3e50;\">{{ $json.fullName }}</b>\n  </p>\n\n  <hr style=\"margin-top:20px; border:none; border-top:1px solid #ddd;\">\n\n  <p style=\"font-size:12px; color:#888; text-align:center;\">\n    This email was sent automatically using n8n workflow automation.\n  </p>\n\n</div>",
         "options": {}
       },
       "type": "n8n-nodes-base.gmail",
@@ -74,8 +74,8 @@
       "webhookId": "a1348122-d850-42a7-9ffc-fcc94161769d",
       "credentials": {
         "gmailOAuth2": {
-          "id": "ny74X13VS3JiQbPC",
-          "name": "Gmail account"
+          "id": "YOUR_GMAIL_CREDENTIAL",
+          "name": "Gmail Account"
         }
       }
     }
@@ -110,11 +110,16 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "23750e4c-ae44-4c50-863c-8839c4571076",
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "016fc0340d5bca8a0c6c73b85fee9f8049911e2827bdfaaa12c8ad88c03f5cd5"
-  },
   "id": "SujAvianz4Uf118i",
-  "tags": []
+  "tags": [
+    {
+      "name": "data-cleaning"
+    },
+    {
+      "name": "email-automation"
+    },
+    {
+      "name": "secure"
+    }
+  ]
 }
